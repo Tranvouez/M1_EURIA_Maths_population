@@ -1,6 +1,5 @@
 ---
 title: "MEMO_MATHS_POP"
-author: "r"
 date: "`r Sys.Date()`"
 output: 
   pdf_document:
