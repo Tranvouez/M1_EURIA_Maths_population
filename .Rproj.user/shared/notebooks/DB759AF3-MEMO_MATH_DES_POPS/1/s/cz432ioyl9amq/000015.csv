@@ -1,0 +1,8 @@
+"0",""
+"0","## Comparaison des log taux bruts et modèle G-M :  ----"
+"0","# comparaison entre log taux bruts et  modèle de Makeham avec ces paramètres"
+"0","plot(ages,"
+"0","     log(q),"
+"0","     type = 'l',"
+"0","     main = 'Ajustement des log taux de mortalité',"
+"0","     col = 'blue') # q_x observés"

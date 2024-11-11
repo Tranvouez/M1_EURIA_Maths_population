@@ -1,0 +1,4 @@
+"0","q = as.numeric(TABLE_D$Total)/as.numeric(TABLE_E$Total)"
+"0","q = q[1:106] # il y a des valeurs manquantes sinon "
+"0","ages = 0:105"
+"0","plot(ages, q, type = 'l') # On affiche le graphique "

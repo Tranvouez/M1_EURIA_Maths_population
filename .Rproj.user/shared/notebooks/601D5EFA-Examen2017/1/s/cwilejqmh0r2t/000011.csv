@@ -1,0 +1,6 @@
+"0","E <- read.csv2(""ExposuresFrance2022.csv"")"
+"0","D <- read.csv2(""DeathsFrance2022.csv"")"
+"0",""
+"0","TABLE_D <- D[D$Year == 1900,] # nombre de décès "
+"0","TABLE_E <- E[E$Year == 1900,] # nombre individus"
+"0",""

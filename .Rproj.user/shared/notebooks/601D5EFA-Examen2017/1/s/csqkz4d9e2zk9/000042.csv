@@ -1,0 +1,6 @@
+"0",""
+"0","alpha = mean(alpha0[25:60]) "
+"0","param = data.frame(alpha = alpha,"
+"0","beta = beta,"
+"0","gamma = gamma)"
+"0","param "

@@ -1,0 +1,6 @@
+"0",""
+"0",""
+"0","X = 1816:2016"
+"0","plot(X, esp_20$Homme, type = ""l"", col = ""blue"", "
+"0","     xlab = ""Année"", ylab = ""Espérance de vie résiduelle âge 20"", "
+"0","     main = ""Espérance de vie résiduelle par année à 20 ans"")"

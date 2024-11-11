@@ -1,0 +1,217 @@
+---
+title: "Données HMD France (1816-2020)"
+output:
+  pdf_document: default
+  html_document: default
+date: "2024-04-05"
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+```
+
+
+ Human Mortality Database  (HMD)
+ 
+ http://www.mortality.org
+
+ France, Total Population, Deaths (period 1x1), 	Last modified: 12 Aug 2022;  Methods Protocol: v6 (2017)
+ 
+ La classe d'âge "110" est en réalité "110 et plus".
+
+```{r}
+De=read.csv("DeathsFrance2022.csv",header = TRUE, sep = ";")
+str(De)  
+De[1,]
+unique(De$Year)
+
+
+E=read.csv("ExposuresFrance2022.csv",header = TRUE, sep = ";")
+str(E)
+
+
+# calcul des taux de mortalité bruts 
+# Population totale
+N=E$Total[(E$Year==2018)&(E$Age<101)]
+D=De$Total[(De$Year==2018)&(De$Age<101)]
+ages=0:100
+q=D/N  # taux bruts
+plot(ages,q,type='l', main='Taux bruts de mortalité (France, 2018)')
+plot(ages,log(q),type='l', main=' log Taux bruts de mortalité (France, 2018)')
+
+# Distinction par genre :
+plot(ages,q,type='l', main='Taux bruts de mortalité (France, 2018)')
+# Hommes
+Nh=E$Male[(E$Year==2018)&(E$Age<101)]
+Dh=De$Male[(De$Year==2018)&(De$Age<101)]
+qh=Dh/Nh  # taux bruts
+lines(ages,qh,type='l',col='blue')
+
+# Femmes
+Nf=E$Female[(E$Year==2018)&(E$Age<101)]
+Df=De$Female[(De$Year==2018)&(De$Age<101)]
+qf=Df/Nf  # taux bruts
+lines(ages,qf,type='l',col='red')
+legend(10, 0.35, legend=c("Pop totale", "Femmes", "Hommes"),col=c("black", "red","blue"), lty=1, cex=0.6)
+```
+
+ mortalité sur les âges jeunes : 
+ 
+ q_x est minimum entre 7 et 13 ans en 2018 :
+ 
+ Différence de mortalité entre Hommes et Femmes chez les ados et jeunes adultes
+ 
+```{r}
+plot(1:25,qh[2:26],type='l',main='Taux de mortalité',xlab='Age',col='blue')
+lines(1:25,q[2:26],col='black')
+lines(1:25,qf[2:26],col='red')
+```
+
+
+ comparaison des taux de mortalité en France en fonction des années d'observation
+
+ Evolution au cours du temps :
+```{r}
+N=E$Total[(E$Year==2016)&(E$Age<101)]
+D=De$Total[(De$Year==2016)&(De$Age<101)]
+ages=0:100
+q=D/N  # taux bruts
+plot(ages,q,type='l', main='Evolution des q_x de 1816 à 2016')
+for (an in seq(1816,2016,10))
+{  N=E$Total[(E$Year==an)&(E$Age<101)]
+D=De$Total[(De$Year==an)&(De$Age<101)]
+q=D/N 
+lines(ages,q,type='l')}
+```
+
+
+ Vue en 3D (2 dimensions temporelles : Année et Age)
+```{r}
+age=0:110
+annee=1816:2020
+mu=De[,3:5]/E[,3:5]
+mut=matrix(mu[,3],length(age),length(annee))
+persp(age[1:100],annee,log(mut[1:100,]),theta=-30,col="light green",shade=TRUE)
+```
+
+
+
+
+ 3 époques différentes : 3 profils différents.
+```{r}
+N=E$Total[(E$Year==2016)&(E$Age<101)]
+D=De$Total[(De$Year==2016)&(De$Age<101)]
+q=D/N 
+plot(ages,q,type='l',main='Taux bruts de mortalité par âge',xlab='Age')
+N=E$Total[(E$Year==1820)&(E$Age<101)]
+D=De$Total[(De$Year==1820)&(De$Age<101)]
+q=D/N
+lines(ages,q,type='l',col='red')
+N=E$Total[(E$Year==1916)&(E$Age<101)]
+D=De$Total[(De$Year==1916)&(De$Age<101)]
+q=D/N
+lines(ages,q,type='l',col='green')
+N=E$Total[(E$Year==2016)&(E$Age<101)]
+D=De$Total[(De$Year==2016)&(De$Age<101)]
+q=D/N
+lines(ages,q,type='l',col='blue')
+legend(22, 0.35, legend=c("1820", "1916", "2016"),col=c( "red",  "green","blue"), lty=1, cex=0.5)
+```
+
+
+
+
+ Proportion de décès par âges :
+```{r}
+D=De$Total[(De$Year==1950)&(De$Age<110)]
+Dp=D/sum(D) 
+plot(0:109,Dp,type='l',main='Répartition des décès par âge',xlab="Age",ylab='% décès')
+for (an in seq(1816,2016,1))
+{ 
+  D=De$Total[(De$Year==an)&(De$Age<110)]
+  Dp=D/sum(D) 
+  lines(0:109,Dp)}
+
+
+D=De$Total[(De$Year==1820)&(De$Age<110)]
+Dp=D/sum(D) 
+plot(0:109,Dp,type='l',col='green', main='Répartition des décès par âge',xlab='Age',ylab='% décès par age') # mortalité infantile élevée
+
+D=De$Total[(De$Year==1916)&(De$Age<110)]
+Dp=D/sum(D)
+lines(0:109,Dp,col='blue')
+
+D=De$Total[(De$Year==1945)&(De$Age<110)]
+Dp=D/sum(D)
+lines(0:109,Dp,col='black')
+
+D=De$Total[(De$Year==1970)&(De$Age<110)]
+Dp=D/sum(D)
+lines(0:109,Dp,col='cyan')
+
+D=De$Total[(De$Year==2016)&(De$Age<110)]
+Dp=D/sum(D)
+lines(0:109,Dp,col='red')
+legend(22, 0.20, legend=c("1820", "1916","1945","1970", "2016"),col=c(   "green","blue","black","cyan","red"), lty=1, cex=0.5)
+```
+
+
+ Evolution de la population sur les ages élevés :
+ évolution du nombre de centenaires
+```{r}
+L=1960:2020
+l=length(L)
+cent=rep(0,l)
+centh=rep(0,l)
+centf=rep(0,l)
+for (i in 1:l)
+{ 
+  cent[i]=sum(E$Total[(E$Year==L[i])&(E$Age>99)])
+  centh[i]=sum(E$Male[(E$Year==L[i])&(E$Age>99)])
+  centf[i]=sum(E$Female[(E$Year==L[i])&(E$Age>99)])
+}
+plot(L,cent,xlab="Années",ylab='Nombre',pch=16,cex=0.3,type='o')
+points(L,centh,col='blue',pch=16,cex=0.3,type='o')
+points(L,centf,col='red',pch=16,cex=0.3,type='o')
+# déficit de naissance lié à la 1ère guerre mondiale
+
+y=log(cent)
+plot(L,y)
+reg=lm(y~L)
+summary(reg)
+a=reg$coefficients[2]
+a
+b=reg$coefficients[1]
+z=exp(a*L+b)
+plot(L,cent, main="Nombre de centenaires en France",xlab="Années",ylab='Nombre',pch=16,cex=0.3,type='o')
+lines(L,z,col='red')  # croissance exponentielle du nombre de centenaires
+exp(a)  # x(t) = x(0) exp( a t)
+exp(10*a) # le nombre de centenaires double en 10 ans.
+```
+
+ Sans l'effet lié à la 1ère guerre mondiale
+```{r}
+L=1960:2014
+l=length(L)
+cent=rep(0,l)
+centh=rep(0,l)
+centf=rep(0,l)
+for (i in 1:l)
+{ 
+  cent[i]=sum(E$Total[(E$Year==L[i])&(E$Age>99)])
+  centh[i]=sum(E$Male[(E$Year==L[i])&(E$Age>99)])
+  centf[i]=sum(E$Female[(E$Year==L[i])&(E$Age>99)])
+}
+y=log(cent)
+plot(L,y)
+reg=lm(y~L)
+summary(reg)
+a=reg$coefficients[2]
+a
+b=reg$coefficients[1]
+z=exp(a*L+b)
+plot(L,cent, main="Nombre de centenaires en France",xlab="Années",ylab='Nombre',pch=16,cex=0.3,type='o')
+lines(L,z,col='red')  # croissance exponentielle du nombre de centenaires
+exp(a)  # x(t) = x(0) exp( a t)
+exp(10*a) # le nombre de centenaires double en 10 ans.
+```

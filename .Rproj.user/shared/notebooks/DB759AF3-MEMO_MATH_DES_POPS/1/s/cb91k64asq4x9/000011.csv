@@ -1,0 +1,1 @@
+"0","plot(20:60, alpha0[20:60]) # on se restreint sur un domaine où les variations sont moindres"

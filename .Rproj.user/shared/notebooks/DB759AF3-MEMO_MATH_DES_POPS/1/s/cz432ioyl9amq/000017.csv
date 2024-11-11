@@ -1,0 +1,2 @@
+"0","qM1 = 1 - exp(-alpha) * exp(-beta / log(gamma) * gamma ^ ages * (gamma -1))  # q_x donnés par le modèle"
+"0","lines(ages, log(qM1), col = 'red')"

@@ -1,0 +1,2 @@
+"0","yf = fitted(reg1, subset = s)"
+"0","lines(ages[s], yf, col = 'red')"

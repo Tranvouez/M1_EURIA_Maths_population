@@ -1,0 +1,7 @@
+"0",""
+"0","# comparaison entre taux bruts et modèle de Makeham avec ces paramètres"
+"0","plot(ages,"
+"0","     q,"
+"0","     type = 'l',"
+"0","     main = 'Ajustement des taux de mortalité',"
+"0","     col = 'blue') # q_x observés"

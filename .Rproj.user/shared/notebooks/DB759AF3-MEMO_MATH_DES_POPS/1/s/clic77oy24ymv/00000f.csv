@@ -1,0 +1,8 @@
+"0","lambda = 1  # paramètre de la loi de Ci et Xi"
+"0","beta = 0.5  # paramètre de la loi de Ci"
+"0","n = 1000000 # Nombre de simulations "
+"0","Xi = rexp(n,lambda) # Simulation de Xi"
+"0","Ci = rexp(n, beta*lambda) # Simulation de Ci"
+"0",""
+"0","Ti = pmin(Xi,Ci) # Simulation de Ti"
+"0","Di = Xi <= Ci ## Simulation de Di "
